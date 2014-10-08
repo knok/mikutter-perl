@@ -22,10 +22,15 @@ Plugin.create(:mikutter_perl) do
 
   filter_before_postbox_post do |m|
     if m.include?("#perl")
-      str = m.gsub("#perl", "")
-      ret = Perl::evel_perl(str)
-#      activity :system, str
-      print ret, "\n"
+      begin
+        str = m.gsub("#perl", "")
+        ret = Perl::eval_perl(str)
+        #      activity :system, str
+        print ret, "\n"
+      rescue => e
+        print "exception\n"
+        pp e
+      end
     end
   end
 
